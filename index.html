@@ -245,6 +245,13 @@ const totals = (p) => {
   const vat = p.vat ? (sub + oh) * 0.07 : 0;
   return {sub, adds, oh, vat, grand: sub + oh + vat};
 };
+const subLine = (cid) => {
+  const p = cur(); if (!p) return;
+  const q = JSON.parse(JSON.stringify(p)); const i = q.lines.findIndex((l) => l.cid === cid); if (i < 0) return;
+  const n = (num(q.lines[i].qty) || 0) - 1;
+  if (n > 0) q.lines[i].qty = n; else q.lines.splice(i, 1);
+  save(q);
+};
 const addLine = (line) => {
   let p = cur();
   p = JSON.parse(JSON.stringify(p));
@@ -309,6 +316,7 @@ const drawResults = () => {
   if (!res.length) { box.appendChild(el('p', 'empty', 'ไม่พบรายการ ลองพิมพ์คำอื่น หรือเพิ่มรายการเองด้านล่าง')); return; }
   const p = cur(); const qtyOf = {}; (p ? p.lines : []).forEach((l) => { if (l.cid) qtyOf[l.cid] = (qtyOf[l.cid] || 0) + (num(l.qty) || 0); });
   const lab = (t, cid) => qtyOf[cid] ? `${t} (${fmt(qtyOf[cid])})` : t;
+  const minus = (cid, what) => { if (!qtyOf[cid]) return null; const m = el('button', 'btn sm bad', '−'); m.title = `ลด${what}ออก 1 (ถ้าเหลือ 0 จะลบออกจาก BOQ)`; m.setAttribute('aria-label', `ลด${what}ออก 1`); m.onclick = () => subLine(cid); return m; };
   res.slice(0, MAXG).forEach(({g, items}) => {
     const gd = el('div', 'grp');
     const hd = el('div', 'grp-h'); hd.append(el('span', '', noNum(g.sub || g.cat)), el('span', 'c', (g.sub ? noNum(g.cat) + ' · ' : '') + items.length + ' รายการ'));
@@ -329,8 +337,8 @@ const drawResults = () => {
       if (dual) {
         const bH = el('button', 'btn sm pri', lab('+ ครึ่งวัน', r.id + '-h')); bH.onclick = () => addLine(Object.assign({}, base, {cid: r.id + '-h', unit: 'ครึ่งวัน', price: r.ph, psrc: 'อนุมัติ 69-70'}));
         const bW = el('button', 'btn sm pri', lab('+ วัน', r.id)); bW.onclick = () => addLine(Object.assign({}, base, {unit: 'วัน', price: r.pd, psrc: 'อนุมัติ 69-70'}));
-        bt.append(bD, bH, bW);
-      } else { const bA = el('button', 'btn sm pri', lab('+', r.id)); bA.title = qtyOf[r.id] ? `อยู่ใน BOQ แล้ว ${fmt(qtyOf[r.id])} ${r.unit || 'หน่วย'} กดเพื่อเพิ่มอีก 1` : 'เพิ่มเข้า BOQ'; bA.setAttribute('aria-label', 'เพิ่มเข้า BOQ'); bA.onclick = () => addLine(base); bt.append(bD, bA); }
+        bt.append(...[bD, minus(r.id + '-h', 'ครึ่งวัน'), bH, minus(r.id, 'วัน'), bW].filter(Boolean));
+      } else { const bA = el('button', 'btn sm pri', lab('+', r.id)); bA.title = qtyOf[r.id] ? `อยู่ใน BOQ แล้ว ${fmt(qtyOf[r.id])} ${r.unit || 'หน่วย'} กดเพื่อเพิ่มอีก 1` : 'เพิ่มเข้า BOQ'; bA.setAttribute('aria-label', 'เพิ่มเข้า BOQ'); bA.onclick = () => addLine(base); bt.append(...[bD, minus(r.id, ''), bA].filter(Boolean)); }
       it.append(left, pr, bt);
       if (S.open[r.id]) it.appendChild(detailBox(r));
       gd.appendChild(it);
