@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ราคากลางงานจ้างเหมา ปี 69-70</title>
+<style>
+:root{--g:#00843d;--g2:#2fb15a;--b:#0068b3;--sky:#e6f3fb;--mint:#eaf7ef;--bg:#e8f4fc;--fg:#13301f;--mut:#4a6656;--line:#c9dfee;--r:10px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"Sarabun","Leelawadee UI","Tahoma",system-ui,sans-serif;font-size:15px;line-height:1.5}
+.wrap{max-width:1200px;margin:0 auto;padding:16px;display:flex;flex-direction:column;gap:16px}
+header.top{background:linear-gradient(110deg,var(--g) 0%,var(--g2) 45%,var(--b) 100%);color:#fff;padding:22px 24px;border-radius:var(--r);box-shadow:0 2px 10px rgba(0,104,179,.15)}
+header.top h1{margin:0;font-size:26px;font-weight:600}
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--g);flex-wrap:wrap}
+.tab{font:inherit;padding:8px 16px;border:1px solid transparent;border-bottom:0;border-radius:var(--r) var(--r) 0 0;background:none;color:var(--mut);cursor:pointer}
+.tab:hover{color:var(--g)}
+.tab.on{background:var(--g);color:#fff;border-color:var(--g)}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 1px 4px rgba(0,80,40,.06)}
+h2{margin:0;font-size:18px;font-weight:600}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.grow{flex:1 1 240px}
+.mut{color:var(--mut);font-size:13px}
+input,select,button{font:inherit}
+.in,select{padding:7px 10px;border:1px solid #b9d6c5;border-radius:8px;background:#fff;color:var(--fg);min-width:0}
+.in:focus,select:focus{outline:2px solid var(--b);border-color:var(--b)}
+.in.num{width:100px;text-align:right}
+#boq-body .in.num{width:76px}
+.btn{padding:7px 14px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--fg);cursor:pointer}
+.btn:hover{border-color:var(--b);color:var(--b)}
+.btn.pri{background:var(--g);border-color:var(--g);color:#fff}
+.btn.pri:hover{background:#006b31}
+.btn.bad{color:#b42318;border-color:#f1c4c0}
+.btn.sm{padding:3px 10px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:default}
+.grid2{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+.grp{border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.grp-h{display:flex;justify-content:space-between;gap:8px;padding:6px 10px;background:linear-gradient(90deg,var(--mint),var(--sky));border-left:4px solid var(--g);font-weight:600}
+.grp-h .c{font-weight:400;color:var(--mut);font-size:13px;white-space:nowrap}
+.it{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px 12px;padding:8px 10px;border-top:1px solid var(--line);align-items:start}
+.it .sg{color:var(--mut);font-size:13px}
+.it .pr{text-align:right;white-space:nowrap;font-size:13px}
+.it .pr b{color:var(--b);font-size:15px}
+.it .pr .pt{font-weight:700;color:var(--g);font-size:12px;white-space:normal;max-width:180px;margin-left:auto}
+.it .pr.warn{color:#b54708}
+.it .bt{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.det{grid-column:1/-1;background:#f7fbfe;border:1px solid var(--line);border-radius:8px;padding:8px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--sky);color:#0b3a5e;font-weight:600;white-space:nowrap}
+.det th{width:38%;background:transparent;color:var(--mut);font-weight:500;white-space:normal}
+td.n,th.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.cat td{background:var(--mint);color:var(--g);font-weight:600}
+tr.sub td{font-weight:600}
+td.itc{min-width:220px}
+.warn{color:#b54708;font-size:12px}
+.tot{display:grid;grid-template-columns:1fr auto;gap:6px 24px;max-width:460px;margin-left:auto;font-variant-numeric:tabular-nums}
+.tot .big{font-weight:700;font-size:17px;color:var(--g)}
+.adds td{vertical-align:middle}
+.empty{color:var(--mut);padding:8px 0}
+.doc{background:#fff;color:#111;padding:32px;border:1px solid var(--line);border-radius:var(--r)}
+.doc h1{font-size:22px;text-align:center;margin:0 0 6px}
+.doc .meta{display:grid;grid-template-columns:max-content 1fr;gap:2px 12px;margin:12px 0;font-size:13px}
+.doc table{font-size:12px;color:#111}
+.doc th,.doc td{border:1px solid #999}
+.doc th{background:#f2f2f2;color:#111}
+.doc tr.cat td{background:#e9e9e9;color:#111}
+.doc .tot .big{color:#111}
+[hidden]{display:none !important}
+@media print{
+  body{background:#fff}
+  .noprint{display:none !important}
+  .wrap{padding:0;max-width:none}
+  .doc{border:0;padding:0}
+  @page{size:A4;margin:12mm}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top noprint"><h1>ราคากลางงานจ้างเหมา ปี 69-70</h1></header>
+
+  <nav class="tabs noprint">
+    <button class="tab on" data-tab="front">สร้าง BOQ</button>
+    <button class="tab" data-tab="hist">ประวัติโปรเจค</button>
+    <button class="tab" data-tab="print">ใบ BOQ (พิมพ์ / PDF)</button>
+  </nav>
+
+  <!-- ===== FRONT ===== -->
+  <section id="front">
+    <div class="card noprint">
+      <div class="row">
+        <select id="proj-select" class="grow" aria-label="เลือกโปรเจค"></select>
+        <input id="new-name" class="in grow" placeholder="ชื่อโปรเจคใหม่" aria-label="ชื่อโปรเจคใหม่">
+        <button class="btn pri" id="btn-new">สร้างโปรเจค</button>
+      </div>
+      <div class="row">
+        <input id="proj-name" class="in grow" placeholder="ชื่อโปรเจค" aria-label="ชื่อโปรเจค">
+        <input id="proj-loc" class="in grow" placeholder="สถานที่ / หมายเหตุ" aria-label="สถานที่">
+        <button class="btn bad" id="btn-del">ลบโปรเจค</button>
+      </div>
+      <p class="mut" id="proj-status"></p>
+    </div>
+
+    <div class="grid2" style="margin-top:16px">
+      <div class="card noprint">
+        <h2>ค้นหารายการ</h2>
+        <select id="f-cat" aria-label="เลือกหมวด"></select>
+        <input class="in" id="q" type="search" placeholder="พิมพ์ค้นหา เช่น เสาเข็ม คอร รูปตัวไอ, สกัดพื้น, ท่อ PVC 4, รถเครน" aria-label="ค้นหารายการ" autocomplete="off">
+        <p class="mut" id="result-count">กำลังโหลดฐานข้อมูล…</p>
+        <div id="results"></div>
+        <details>
+          <summary class="mut">เพิ่มรายการเอง</summary>
+          <div class="row" style="margin-top:8px">
+            <input id="c-name" class="in grow" placeholder="ชื่อรายการ" aria-label="ชื่อรายการ">
+            <input id="c-unit" class="in" style="width:90px" placeholder="หน่วย" aria-label="หน่วย">
+            <input id="c-qty" class="in num" type="number" step="any" min="0" placeholder="จำนวน" aria-label="จำนวน">
+            <input id="c-price" class="in num" type="number" step="any" min="0" placeholder="ราคา/หน่วย" aria-label="ราคาต่อหน่วย">
+            <button class="btn pri" id="btn-custom">เพิ่ม</button>
+          </div>
+        </details>
+      </div>
+
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <h2>BOQ ของโปรเจค</h2>
+          <div class="row noprint">
+            <button class="btn" id="btn-csv">ดาวน์โหลด CSV</button>
+            <button class="btn" data-goto="print">ใบ BOQ / PDF</button>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>#</th><th>รายการ</th><th>หน่วย</th><th class="n">จำนวน</th><th class="n">ราคา/หน่วย</th><th class="n">จำนวนเงิน</th><th>หมายเหตุ</th><th></th></tr></thead>
+            <tbody id="boq-body"></tbody>
+          </table>
+        </div>
+        <div>
+          <b style="color:var(--g)">ค่าบวกเพิ่ม (%) ตอนสรุปยอด</b>
+          <div class="row" style="margin-top:6px">
+            <select id="add-sel" class="grow" aria-label="เลือกค่าบวกเพิ่ม"></select>
+            <button class="btn pri sm" id="btn-add">เพิ่ม</button>
+          </div>
+          <table class="adds" style="margin-top:6px"><tbody id="adds-body"></tbody></table>
+        </div>
+        <label class="mut"><input type="checkbox" id="vat"> คิด VAT 7%</label>
+        <div class="tot" id="totals">—</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HISTORY ===== -->
+  <section id="hist" hidden>
+    <div class="card">
+      <h2>ประวัติโปรเจค</h2>
+      <p class="mut">โปรเจคเก็บไว้ในเบราว์เซอร์เครื่องนี้ (ถ้าเปลี่ยนเครื่องหรือล้างข้อมูลเบราว์เซอร์จะหาย) สำรองได้ด้วยปุ่มด้านล่าง</p>
+      <div class="row">
+        <button class="btn" id="btn-backup">สำรองโปรเจคทั้งหมด (.json)</button>
+        <label class="btn">นำเข้าไฟล์สำรอง<input type="file" id="restore" accept=".json,application/json" hidden></label>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>โปรเจค</th><th>สถานที่ / หมายเหตุ</th><th>สร้างเมื่อ</th><th>แก้ล่าสุด</th><th class="n">รายการ</th><th class="n">รวมทั้งสิ้น (บาท)</th><th></th></tr></thead>
+          <tbody id="hist-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRINT ===== -->
+  <section id="print" hidden>
+    <div class="card noprint">
+      <div class="row">
+        <span>ใบ BOQ ของโปรเจค:</span>
+        <select id="print-proj" aria-label="เลือกโปรเจค"></select>
+        <button class="btn pri" id="btn-print">พิมพ์ / บันทึก PDF</button>
+      </div>
+      <p class="mut">กด "พิมพ์ / บันทึก PDF" แล้วเลือกเครื่องพิมพ์ หรือเลือก "บันทึกเป็น PDF"</p>
+    </div>
+    <div class="doc" id="doc"></div>
+  </section>
+</div>
+
+<script>
+(() => {
+'use strict';
+const $ = (s) => document.querySelector(s);
+const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; };
+const num = (v) => (v === null || v === undefined || v === '' || isNaN(+v)) ? null : +v;
+const fmt = (v) => v === null || v === undefined ? '' : (+v).toLocaleString('th-TH', {maximumFractionDigits: 2});
+const money = (v) => (+v || 0).toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const dateTh = (t) => t ? new Date(t).toLocaleDateString('th-TH', {year: 'numeric', month: 'short', day: 'numeric'}) : '—';
+const norm = (s) => String(s || '').toLowerCase().replace(/[็-์]/g, '').replace(/\s+/g, ' ');
+const noNum = (s) => String(s || '').split('›').map((x) => x.replace(/^\s*\d+(?:\.\d+)*\.?\s*/, '').trim()).filter(Boolean).join(' › ');
+const itemName = (s) => String(s || '').replace(/^\s*-\s*/, '').replace(/^\s*\d+(?:\.\d+)+\.?\s*/, '');
+const isOH = (cat) => /^18\./.test(cat);
+const MAXG = 25;
+
+/* ---------- state ---------- */
+const LS = 'boq6970_projects_v1';
+const S = {rows: [], groups: [], q: '', cat: '', open: {}, pid: localStorage.getItem('boq6970_pid') || null, tab: 'front', printPid: null};
+const loadProjects = () => { try { const a = JSON.parse(localStorage.getItem(LS) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } };
+let projects = loadProjects();
+const persist = () => { try { localStorage.setItem(LS, JSON.stringify(projects)); if (S.pid) localStorage.setItem('boq6970_pid', S.pid); } catch (e) { alert('บันทึกไม่สำเร็จ: พื้นที่เก็บข้อมูลของเบราว์เซอร์เต็มหรือถูกปิด'); } };
+const sorted = () => projects.slice().sort((a, b) => (b.updated || 0) - (a.updated || 0));
+const cur = () => projects.find((p) => p.id === S.pid) || sorted()[0] || null;
+const newId = (p) => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const save = (p) => { p.updated = Date.now(); const i = projects.findIndex((x) => x.id === p.id); if (i >= 0) projects[i] = p; else projects.push(p); S.pid = p.id; persist(); redraw(); };
+const newProject = (name) => { const now = Date.now(); return {id: newId('p'), name: name || 'โปรเจคใหม่', loc: '', vat: false, adds: [], lines: [], created: now, updated: now}; };
+const totals = (p) => {
+  const sub = p.lines.reduce((s, l) => s + (num(l.qty) || 0) * (num(l.price) || 0), 0);
+  const adds = (p.adds || []).map((a) => ({name: a.name, pct: num(a.pct) || 0, amt: sub * (num(a.pct) || 0) / 100}));
+  const oh = adds.reduce((s, a) => s + a.amt, 0);
+  const vat = p.vat ? (sub + oh) * 0.07 : 0;
+  return {sub, adds, oh, vat, grand: sub + oh + vat};
+};
+const addLine = (line) => {
+  let p = cur(); if (!p) p = newProject('โปรเจคใหม่');
+  p = JSON.parse(JSON.stringify(p));
+  const ex = line.cid ? p.lines.find((l) => l.cid === line.cid) : null;
+  if (ex) ex.qty = (num(ex.qty) || 0) + 1; else p.lines.push(Object.assign({key: newId('l')}, line));
+  save(p);
+};
+
+/* ---------- data ---------- */
+const buildIndex = () => {
+  const by = {};
+  S.groups = [];
+  S.rows.forEach((r) => {
+    const key = r.cat + '||' + (r.sub || '');
+    if (!by[key]) { const head = r.cat + ' ' + (r.sub || ''); by[key] = {cat: r.cat, sub: r.sub || '', items: [], hay: norm(head), hayT: norm(noNum(head))}; S.groups.push(by[key]); }
+    const txt = [r.item, r.detail, r.unit, r.remark, r.ct, r.basis].join(' ');
+    by[key].items.push({r, hay: norm([r.code, txt].join(' ')), hayT: norm(txt)});
+  });
+};
+const matcher = (q) => {
+  const words = norm(q).trim().split(' ').filter(Boolean);
+  const esc = (w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const rx = {};
+  words.forEach((w) => { if (/\d/.test(w)) rx[w] = new RegExp('(^|[^\\d.,])' + esc(w) + '(?![\\d,])'); });
+  const isCode = (w) => /^\d+(\.\d+)+\.?$/.test(w);
+  const test = (full, txt, w) => rx[w] ? rx[w].test(isCode(w) ? full : txt) : full.includes(w);
+  return {words, test};
+};
+const search = () => {
+  const {words, test} = matcher(S.q);
+  if (!words.length && !S.cat) return [];
+  const out = [];
+  S.groups.forEach((g) => {
+    if (isOH(g.cat)) return;
+    if (S.cat && g.cat !== S.cat) return;
+    const inH = (w) => test(g.hay, g.hayT, w);
+    const headAll = words.every(inH);
+    const items = headAll ? g.items : g.items.filter((x) => words.every((w) => inH(w) || test(x.hay, x.hayT, w)));
+    if (items.length) out.push({g, items: items.map((x) => x.r), score: (headAll ? 1000 : 0) + words.filter(inH).length * 10 - items.length / 1000});
+  });
+  return out.sort((a, b) => b.score - a.score);
+};
+
+/* ---------- render: search ---------- */
+const detailBox = (r) => {
+  const box = el('div', 'det'); const t = el('table');
+  const add = (k, v) => { const tr = t.insertRow(); tr.appendChild(el('th', '', k)); tr.insertCell().textContent = v === null || v === undefined || v === '' ? '—' : v; };
+  add('หมวด', noNum(r.cat)); add('หัวข้อ', noNum(r.sub)); add('ประเภทราคา', r.ct || 'ไม่ระบุในเอกสาร');
+  if (r.basis) add('คิดราคาต่อ', r.basis);
+  (r.cols || []).forEach(([k, v]) => { if (k !== 'รหัส') add(k, k === 'ประเภทงาน' ? itemName(v) : v); });
+  add('หน้าใน PDF', r.page);
+  box.appendChild(t); return box;
+};
+const drawResults = () => {
+  const box = $('#results'); box.replaceChildren();
+  const cnt = $('#result-count');
+  if (!S.rows.length) return;
+  const res = search();
+  if (!S.q.trim() && !S.cat) { cnt.textContent = `ฐานข้อมูลมี ${S.rows.filter((r) => !isOH(r.cat)).length.toLocaleString()} รายการ เลือกหมวด หรือพิมพ์ชื่องานในช่องค้นหาได้เลย`; return; }
+  const n = res.reduce((s, x) => s + x.items.length, 0);
+  cnt.textContent = `พบ ${n.toLocaleString()} รายการ ใน ${res.length} หัวข้อ` + (res.length > MAXG ? ` (แสดง ${MAXG} หัวข้อแรก พิมพ์เพิ่มเพื่อให้แคบลง)` : '');
+  if (!res.length) { box.appendChild(el('p', 'empty', 'ไม่พบรายการ ลองพิมพ์คำอื่น หรือเพิ่มรายการเองด้านล่าง')); return; }
+  const p = cur(); const inBoq = new Set(p ? p.lines.map((l) => l.cid).filter(Boolean) : []);
+  res.slice(0, MAXG).forEach(({g, items}) => {
+    const gd = el('div', 'grp');
+    const hd = el('div', 'grp-h'); hd.append(el('span', '', noNum(g.sub || g.cat)), el('span', 'c', (g.sub ? noNum(g.cat) + ' · ' : '') + items.length + ' รายการ'));
+    gd.appendChild(hd);
+    items.forEach((r) => {
+      const it = el('div', 'it');
+      const left = el('div'); left.appendChild(el('div', '', itemName(r.item)));
+      const brief = [r.detail, r.remark].filter(Boolean).join(' · '); if (brief) left.appendChild(el('div', 'sg', brief));
+      const pr = el('div', 'pr');
+      const dual = num(r.ph) !== null && num(r.pd) !== null;
+      if (dual) [['ครึ่งวัน', r.ph], ['วัน', r.pd]].forEach(([lb, v]) => { const d = el('div'); d.append(el('b', '', fmt(v)), document.createTextNode(' /' + lb)); pr.appendChild(d); });
+      else if (num(r.appr) === null) { pr.classList.add('warn'); pr.textContent = 'ไม่มีราคา'; }
+      else { pr.append(el('b', '', fmt(r.appr)), document.createTextNode(' /' + (r.unit || 'หน่วย'))); }
+      const pt = [r.ct, r.basis].filter(Boolean).join(' · '); if (pt) pr.appendChild(el('div', 'pt', pt));
+      const bt = el('div', 'bt');
+      const bD = el('button', 'btn sm', S.open[r.id] ? 'ซ่อน' : 'รายละเอียด'); bD.onclick = () => { S.open[r.id] = !S.open[r.id]; drawResults(); };
+      const base = {cid: r.id, item: itemName(r.item), cat: r.cat, sub: r.sub || '', detail: r.detail || '', ctype: r.ct || '', unit: r.unit || '', price: num(r.appr) || 0, psrc: num(r.appr) === null ? 'ไม่มีราคาในเอกสาร' : 'อนุมัติ 69-70', qty: 1, note: '', page: r.page};
+      if (dual) {
+        const bH = el('button', 'btn sm pri', '+ ครึ่งวัน'); bH.onclick = () => addLine(Object.assign({}, base, {cid: r.id + '-h', unit: 'ครึ่งวัน', price: r.ph, psrc: 'อนุมัติ 69-70'}));
+        const bW = el('button', 'btn sm pri', '+ วัน'); bW.onclick = () => addLine(Object.assign({}, base, {unit: 'วัน', price: r.pd, psrc: 'อนุมัติ 69-70'}));
+        bt.append(bD, bH, bW);
+      } else { const bA = el('button', 'btn sm pri', inBoq.has(r.id) ? '+1' : '+'); bA.setAttribute('aria-label', 'เพิ่มเข้า BOQ'); bA.onclick = () => addLine(base); bt.append(bD, bA); }
+      it.append(left, pr, bt);
+      if (S.open[r.id]) it.appendChild(detailBox(r));
+      gd.appendChild(it);
+    });
+    box.appendChild(gd);
+  });
+};
+const drawCats = () => {
+  const sel = $('#f-cat'); const m = new Map();
+  S.rows.forEach((r) => { if (!isOH(r.cat)) m.set(r.cat, (m.get(r.cat) || 0) + 1); });
+  sel.replaceChildren(new Option('ทุกหมวด', ''), ...[...m].map(([c, n]) => new Option(`${noNum(c)} (${n})`, c)));
+  sel.value = S.cat;
+};
+
+/* ---------- render: project ---------- */
+const lineSub = (l) => [l.ctype, noNum(l.sub), l.detail].filter(Boolean).join(' · ');
+const drawProject = () => {
+  const p = cur(); const ps = sorted();
+  const sel = $('#proj-select');
+  sel.replaceChildren(...(ps.length ? ps.map((x) => new Option(`${x.name} (${x.lines.length} รายการ)`, x.id)) : [new Option('ยังไม่มีโปรเจค', '')]));
+  sel.disabled = !ps.length; sel.value = p ? p.id : '';
+  [['#proj-name', p ? p.name : ''], ['#proj-loc', p ? p.loc || '' : '']].forEach(([s, v]) => { const e = $(s); if (document.activeElement !== e) e.value = v; e.disabled = !p; });
+  $('#btn-del').disabled = !p; $('#vat').checked = !!(p && p.vat); $('#vat').disabled = !p;
+  $('#proj-status').textContent = p ? `${p.lines.length} รายการใน BOQ · บันทึกล่าสุด ${new Date(p.updated).toLocaleString('th-TH')}` : 'ยังไม่มีโปรเจค ตั้งชื่อแล้วกด "สร้างโปรเจค" หรือกด + ที่รายการใดก็ได้เพื่อเริ่มโปรเจคใหม่';
+  // lines
+  const tb = $('#boq-body'); tb.replaceChildren();
+  if (!p || !p.lines.length) { const td = tb.insertRow().insertCell(); td.colSpan = 8; td.className = 'empty'; td.textContent = 'ยังไม่มีรายการ ค้นหาจากฐานข้อมูลแล้วกด +'; }
+  else {
+    let n = 0; const groups = new Map();
+    p.lines.forEach((l) => { const c = l.cat || 'รายการเพิ่มเอง'; if (!groups.has(c)) groups.set(c, []); groups.get(c).push(l); });
+    groups.forEach((lines, cat) => {
+      const hr = tb.insertRow(); hr.className = 'cat'; const hc = hr.insertCell(); hc.colSpan = 8; hc.textContent = noNum(cat);
+      lines.forEach((l) => {
+        n++; const tr = tb.insertRow();
+        tr.insertCell().textContent = n;
+        const ti = tr.insertCell(); ti.className = 'itc'; ti.appendChild(el('div', '', l.item));
+        const s = lineSub(l); if (s) ti.appendChild(el('div', 'mut', s));
+        if (l.psrc === 'ไม่มีราคาในเอกสาร') ti.appendChild(el('div', 'warn', '⚠ PDF ไม่ได้ระบุราคา 69-70 ของรายการนี้ ใส่ราคาเอง'));
+        else if (l.psrc === 'แก้ไขเอง') ti.appendChild(el('div', 'warn', 'ราคาแก้ไขเอง (ไม่ใช่ราคาใน PDF)'));
+        tr.insertCell().textContent = l.unit || '';
+        const upd = (fn) => { const q = JSON.parse(JSON.stringify(cur())); const t = q.lines.find((x) => x.key === l.key); if (t) { fn(t); save(q); } };
+        ['qty', 'price'].forEach((f) => {
+          const td = tr.insertCell(); td.className = 'n';
+          const inp = el('input', 'in num'); inp.type = 'number'; inp.step = 'any'; inp.min = '0'; inp.value = num(l[f]) === null ? '' : l[f];
+          inp.setAttribute('aria-label', f === 'qty' ? 'จำนวน' : 'ราคาต่อหน่วย');
+          inp.onchange = () => upd((t) => { t[f] = num(inp.value) || 0; if (f === 'price' && t.cid) t.psrc = 'แก้ไขเอง'; });
+          td.appendChild(inp);
+        });
+        const ta = tr.insertCell(); ta.className = 'n'; ta.textContent = money((num(l.qty) || 0) * (num(l.price) || 0));
+        const tn = tr.insertCell(); const ni = el('input', 'in'); ni.value = l.note || ''; ni.placeholder = 'หมายเหตุ'; ni.setAttribute('aria-label', 'หมายเหตุ'); ni.style.width = '120px';
+        ni.onchange = () => upd((t) => { t.note = ni.value; }); tn.appendChild(ni);
+        const tx = tr.insertCell(); const bx = el('button', 'btn sm bad', 'ลบ'); bx.onclick = () => { const q = JSON.parse(JSON.stringify(cur())); q.lines = q.lines.filter((x) => x.key !== l.key); save(q); }; tx.appendChild(bx);
+      });
+      const st = tb.insertRow(); st.className = 'sub';
+      const c1 = st.insertCell(); c1.colSpan = 5; c1.style.textAlign = 'right'; c1.textContent = 'รวม ' + noNum(cat);
+      const c2 = st.insertCell(); c2.className = 'n'; c2.textContent = money(lines.reduce((s, l) => s + (num(l.qty) || 0) * (num(l.price) || 0), 0));
+      st.insertCell(); st.insertCell();
+    });
+  }
+  // adds
+  const opts = addOptions();
+  const as = $('#add-sel');
+  as.replaceChildren(new Option('เลือกค่าบวกเพิ่ม (Overhead / Factor F / ค่าดำเนินการ)…', ''), ...opts.map((o, i) => new Option(`${o.name} · ${fmt(o.pct)}%`, String(i))), new Option('อื่นๆ (ตั้งชื่อและ % เอง)', 'custom'));
+  as.disabled = !p; $('#btn-add').disabled = !p;
+  const ab = $('#adds-body'); ab.replaceChildren();
+  if (p) {
+    const sub = totals(p).sub;
+    (p.adds || []).forEach((a) => {
+      const tr = ab.insertRow();
+      const upd = (fn) => { const q = JSON.parse(JSON.stringify(cur())); const t = (q.adds || []).find((x) => x.key === a.key); if (t) { fn(t); save(q); } };
+      const ni = el('input', 'in'); ni.value = a.name; ni.style.width = '100%'; ni.setAttribute('aria-label', 'ชื่อค่าบวกเพิ่ม'); ni.onchange = () => upd((t) => { t.name = ni.value.trim() || 'ค่าบวกเพิ่ม'; });
+      tr.insertCell().appendChild(ni);
+      const tp = tr.insertCell(); tp.className = 'n'; const pi = el('input', 'in num'); pi.type = 'number'; pi.step = 'any'; pi.min = '0'; pi.value = a.pct; pi.style.width = '80px'; pi.setAttribute('aria-label', 'เปอร์เซ็นต์');
+      pi.onchange = () => upd((t) => { t.pct = num(pi.value) || 0; }); tp.append(pi, document.createTextNode(' %'));
+      const ta = tr.insertCell(); ta.className = 'n'; ta.textContent = money(sub * (num(a.pct) || 0) / 100);
+      const bx = el('button', 'btn sm bad', 'ลบ'); bx.onclick = () => { const q = JSON.parse(JSON.stringify(cur())); q.adds = (q.adds || []).filter((x) => x.key !== a.key); save(q); };
+      tr.insertCell().appendChild(bx);
+    });
+  }
+  totalsInto($('#totals'), p);
+};
+const addOptions = () => S.rows.filter((r) => isOH(r.cat) && num(r.appr) !== null).map((r) => {
+  const d = String(r.detail || '').trim();
+  return {name: String(r.item || '').replace(/\s*\(คิดเป็น %\)\s*/, '').trim() + (/^Factor F/.test(r.item || '') && d ? ' ' + d.replace(/^มูลค่างาน \(บาท\)\s*/, 'มูลค่างาน ') : ''), pct: num(r.appr)};
+});
+const totalsInto = (box, p) => {
+  box.replaceChildren(); if (!p) { box.textContent = '—'; return; }
+  const t = totals(p);
+  const add = (k, v, big) => { box.append(el('span', big ? 'big' : '', k), el('span', big ? 'big' : '', money(v) + ' บาท')); };
+  add('รวมค่างาน', t.sub);
+  t.adds.forEach((a) => add(`${a.name} ${fmt(a.pct)}%`, a.amt));
+  if (p.vat) add('VAT 7%', t.vat);
+  add('รวมทั้งสิ้น', t.grand, true);
+};
+
+/* ---------- render: history & print ---------- */
+const drawHist = () => {
+  const tb = $('#hist-body'); tb.replaceChildren(); const ps = sorted();
+  if (!ps.length) { const td = tb.insertRow().insertCell(); td.colSpan = 7; td.className = 'empty'; td.textContent = 'ยังไม่มีโปรเจค'; return; }
+  ps.forEach((p) => {
+    const tr = tb.insertRow();
+    tr.insertCell().textContent = p.name; tr.insertCell().textContent = p.loc || '';
+    tr.insertCell().textContent = dateTh(p.created); tr.insertCell().textContent = dateTh(p.updated);
+    const c5 = tr.insertCell(); c5.className = 'n'; c5.textContent = p.lines.length;
+    const c6 = tr.insertCell(); c6.className = 'n'; c6.textContent = money(totals(p).grand);
+    const c7 = tr.insertCell(); c7.style.whiteSpace = 'nowrap';
+    const mk = (t, cls, fn) => { const b = el('button', 'btn sm ' + cls, t); b.onclick = fn; c7.append(b, ' '); };
+    mk('เปิด', 'pri', () => { S.pid = p.id; persist(); showTab('front'); redraw(); });
+    mk('ใบ BOQ', '', () => { S.pid = p.id; S.printPid = p.id; showTab('print'); redraw(); });
+    mk('ทำสำเนา', '', () => { const q = JSON.parse(JSON.stringify(p)); const now = Date.now(); q.id = newId('p'); q.name = p.name + ' (สำเนา)'; q.created = now; q.lines.forEach((l) => { l.key = newId('l'); }); save(q); });
+    mk('ลบ', 'bad', () => { if (confirm(`ลบโปรเจค "${p.name}"? ลบแล้วกู้คืนไม่ได้`)) { projects = projects.filter((x) => x.id !== p.id); if (S.pid === p.id) S.pid = null; persist(); redraw(); } });
+  });
+};
+const drawPrint = () => {
+  const ps = sorted(); const sel = $('#print-proj');
+  const id = S.printPid || (cur() || {}).id;
+  sel.replaceChildren(...(ps.length ? ps.map((p) => new Option(p.name, p.id)) : [new Option('ยังไม่มีโปรเจค', '')]));
+  sel.value = id || (ps[0] || {}).id || '';
+  const p = ps.find((x) => x.id === sel.value);
+  const doc = $('#doc'); doc.replaceChildren();
+  if (!p) { doc.textContent = 'ยังไม่มีโปรเจค สร้างโปรเจคและเพิ่มรายการก่อน'; return; }
+  doc.appendChild(el('h1', '', 'บัญชีแสดงปริมาณวัสดุและราคา (BOQ)'));
+  const meta = el('div', 'meta');
+  [['โครงการ', p.name], ['สถานที่ / หมายเหตุ', p.loc || '—'], ['วันที่', dateTh(Date.now())], ['อ้างอิงราคา', 'ราคากลางงานจ้างเหมา ปี 2569/2570 (ราคาอนุมัติ 69-70)']].forEach(([k, v]) => meta.append(el('b', '', k), el('span', '', v)));
+  doc.appendChild(meta);
+  const t = el('table'); const hr = t.createTHead().insertRow();
+  ['ลำดับ', 'รายการ', 'จำนวน', 'หน่วย', 'ราคา/หน่วย', 'จำนวนเงิน', 'หมายเหตุ'].forEach((x, i) => { const c = el('th', [2, 4, 5].includes(i) ? 'n' : '', x); hr.appendChild(c); });
+  const tb = t.createTBody(); let n = 0; const groups = new Map();
+  p.lines.forEach((l) => { const c = l.cat || 'รายการเพิ่มเอง'; if (!groups.has(c)) groups.set(c, []); groups.get(c).push(l); });
+  groups.forEach((lines, cat) => {
+    const r0 = tb.insertRow(); r0.className = 'cat'; const c0 = r0.insertCell(); c0.colSpan = 7; c0.textContent = noNum(cat);
+    lines.forEach((l) => {
+      n++; const tr = tb.insertRow();
+      tr.insertCell().textContent = n;
+      tr.insertCell().textContent = l.item + (lineSub(l) ? ' — ' + lineSub(l) : '');
+      const q = tr.insertCell(); q.className = 'n'; q.textContent = fmt(num(l.qty));
+      tr.insertCell().textContent = l.unit || '';
+      const pu = tr.insertCell(); pu.className = 'n'; pu.textContent = money(l.price);
+      const am = tr.insertCell(); am.className = 'n'; am.textContent = money((num(l.qty) || 0) * (num(l.price) || 0));
+      tr.insertCell().textContent = l.note || '';
+    });
+    const st = tb.insertRow(); st.className = 'sub';
+    const a = st.insertCell(); a.colSpan = 5; a.style.textAlign = 'right'; a.textContent = 'รวม ' + noNum(cat);
+    const b = st.insertCell(); b.className = 'n'; b.textContent = money(lines.reduce((s, l) => s + (num(l.qty) || 0) * (num(l.price) || 0), 0));
+    st.insertCell();
+  });
+  if (!p.lines.length) { const td = tb.insertRow().insertCell(); td.colSpan = 7; td.textContent = 'ยังไม่มีรายการใน BOQ นี้'; }
+  doc.appendChild(t);
+  const tot = el('div', 'tot'); tot.style.marginTop = '12px'; totalsInto(tot, p); doc.appendChild(tot);
+};
+
+/* ---------- glue ---------- */
+const redraw = () => { drawProject(); drawResults(); drawHist(); drawPrint(); };
+const showTab = (tab) => {
+  S.tab = tab;
+  ['front', 'hist', 'print'].forEach((t) => { $('#' + t).hidden = t !== tab; });
+  document.querySelectorAll('.tab').forEach((b) => b.classList.toggle('on', b.dataset.tab === tab));
+  if (location.hash !== '#' + tab) history.replaceState(null, '', '#' + tab);
+};
+document.querySelectorAll('.tab').forEach((b) => b.addEventListener('click', () => showTab(b.dataset.tab)));
+document.querySelectorAll('[data-goto]').forEach((b) => b.addEventListener('click', () => { const p = cur(); if (p) S.printPid = p.id; drawPrint(); showTab(b.dataset.goto); }));
+let qt; $('#q').addEventListener('input', (e) => { clearTimeout(qt); qt = setTimeout(() => { S.q = e.target.value; drawResults(); }, 150); });
+$('#f-cat').addEventListener('change', (e) => { S.cat = e.target.value; drawResults(); });
+$('#proj-select').addEventListener('change', (e) => { S.pid = e.target.value; persist(); redraw(); });
+$('#btn-new').addEventListener('click', () => { const n = $('#new-name'); save(newProject(n.value.trim())); n.value = ''; });
+const updP = (fn) => { const p = cur(); if (!p) return; const q = JSON.parse(JSON.stringify(p)); fn(q); save(q); };
+$('#proj-name').addEventListener('change', (e) => updP((q) => { q.name = e.target.value.trim() || 'โปรเจค'; }));
+$('#proj-loc').addEventListener('change', (e) => updP((q) => { q.loc = e.target.value; }));
+$('#vat').addEventListener('change', (e) => updP((q) => { q.vat = e.target.checked; }));
+$('#btn-del').addEventListener('click', () => { const p = cur(); if (p && confirm(`ลบโปรเจค "${p.name}"? ลบแล้วกู้คืนไม่ได้`)) { projects = projects.filter((x) => x.id !== p.id); S.pid = null; persist(); redraw(); } });
+$('#btn-add').addEventListener('click', () => {
+  const v = $('#add-sel').value; if (!v) return; const o = addOptions()[+v];
+  updP((q) => { q.adds = q.adds || []; q.adds.push({key: newId('a'), name: o ? o.name : 'ค่าบวกเพิ่ม', pct: o ? o.pct : 0}); });
+});
+$('#btn-custom').addEventListener('click', () => {
+  const name = $('#c-name').value.trim(); if (!name) { $('#c-name').focus(); return; }
+  addLine({cid: null, item: name, cat: 'รายการเพิ่มเอง', sub: '', detail: '', ctype: '', unit: $('#c-unit').value.trim(), price: num($('#c-price').value) || 0, psrc: 'เพิ่มเอง', qty: num($('#c-qty').value) || 1, note: ''});
+  ['#c-name', '#c-unit', '#c-price', '#c-qty'].forEach((s) => { $(s).value = ''; });
+});
+const download = (name, text, type) => { const a = el('a'); a.href = URL.createObjectURL(new Blob([text], {type})); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); };
+const csvEsc = (x) => { const s = String(x === null || x === undefined ? '' : x); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+$('#btn-csv').addEventListener('click', () => {
+  const p = cur(); if (!p) return; const t = totals(p);
+  const out = [['โปรเจค', p.name], ['สถานที่/หมายเหตุ', p.loc || ''], [], ['ลำดับ', 'หมวด', 'รายการ', 'รายละเอียด', 'หน่วย', 'จำนวน', 'ราคา/หน่วย', 'จำนวนเงิน', 'ที่มาราคา', 'หน้าใน PDF', 'หมายเหตุ']];
+  p.lines.forEach((l, i) => out.push([i + 1, noNum(l.cat), l.item, lineSub(l), l.unit, l.qty, l.price, (num(l.qty) || 0) * (num(l.price) || 0), l.psrc, l.page || '', l.note]));
+  out.push([], ['', '', 'รวมค่างาน', '', '', '', '', t.sub.toFixed(2)]);
+  t.adds.forEach((a) => out.push(['', '', `${a.name} ${a.pct}%`, '', '', '', '', a.amt.toFixed(2)]));
+  if (p.vat) out.push(['', '', 'VAT 7%', '', '', '', '', t.vat.toFixed(2)]);
+  out.push(['', '', 'รวมทั้งสิ้น', '', '', '', '', t.grand.toFixed(2)]);
+  download(`BOQ_${p.name.replace(/[^\w฀-๿-]+/g, '_')}.csv`, '﻿' + out.map((r) => r.map(csvEsc).join(',')).join('\r\n'), 'text/csv;charset=utf-8');
+});
+$('#btn-backup').addEventListener('click', () => download(`BOQ_backup_${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify({projects}, null, 1), 'application/json'));
+$('#restore').addEventListener('change', async (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  try { const d = JSON.parse(await f.text()); const list = Array.isArray(d) ? d : d.projects; if (!Array.isArray(list)) throw 0;
+    let n = 0; list.forEach((p) => { if (p && p.id && Array.isArray(p.lines)) { const i = projects.findIndex((x) => x.id === p.id); if (i >= 0) projects[i] = p; else projects.push(p); n++; } });
+    persist(); redraw(); alert(`นำเข้าแล้ว ${n} โปรเจค`);
+  } catch (err) { alert('ไฟล์ไม่ถูกต้อง'); }
+  e.target.value = '';
+});
+$('#print-proj').addEventListener('change', (e) => { S.printPid = e.target.value; drawPrint(); });
+$('#btn-print').addEventListener('click', () => window.print());
+window.addEventListener('beforeprint', () => { if (S.tab !== 'print') { S._prev = S.tab; drawPrint(); showTab('print'); } });
+window.addEventListener('afterprint', () => { if (S._prev) { showTab(S._prev); S._prev = null; } });
+
+const h = location.hash.replace('#', ''); showTab(['front', 'hist', 'print'].includes(h) ? h : 'front');
+redraw();
+const parseCsv = (t) => {
+  t = t.replace(/^\ufeff/, ''); const rows = []; let r = [], f = '', q = false;
+  for (let i = 0; i < t.length; i++) { const c = t[i];
+    if (q) { if (c === '"') { if (t[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += c; }
+    else if (c === '"') q = true; else if (c === ',') { r.push(f); f = ''; } else if (c === '\n') { r.push(f); rows.push(r); r = []; f = ''; } else if (c !== '\r') f += c; }
+  if (f || r.length) { r.push(f); rows.push(r); }
+  return rows;
+};
+/* data.csv = ไฟล์ "ดาวน์โหลดฐานข้อมูล CSV" จากหลังบ้านใน Claude (มีการแก้ไขล่าสุด) ถ้าไม่มีจะใช้ data.json */
+const fromAdminCsv = (text) => {
+  const R = parseCsv(text); const H = R[0] || []; const ix = (k) => H.indexOf(k);
+  const g = (row, k) => { const i = ix(k); return i < 0 ? '' : (row[i] || ''); };
+  if (ix('รายการ') < 0 || ix('หมวด') < 0) throw new Error('bad csv');
+  return R.slice(1).filter((x) => x.length > 3).map((x) => ({id: +g(x, 'id'), cat: g(x, 'หมวด'), sub: g(x, 'หัวข้อ'), code: g(x, 'รหัส'), item: g(x, 'รายการ'), detail: g(x, 'รายละเอียด'), unit: g(x, 'หน่วย'),
+    ct: g(x, 'ประเภทราคา'), basis: g(x, 'คิดราคาต่อ'), sp: num(g(x, 'ราคา สพฐ. 2569')), appr: num(g(x, 'ราคาอนุมัติ 69-70')), ph: num(g(x, 'ราคาครึ่งวัน')), pd: num(g(x, 'ราคาต่อวัน')),
+    remark: g(x, 'หมายเหตุ'), page: g(x, 'หน้า'), cols: g(x, 'คอลัมน์ทั้งหมดตาม PDF').split(' | ').filter(Boolean).map((kv) => { const j = kv.indexOf(': '); return j < 0 ? [kv, ''] : [kv.slice(0, j), kv.slice(j + 2)]; })}));
+};
+const loadData = async () => {
+  try { const r = await fetch('data.csv', {cache: 'no-cache'}); if (r.ok) return fromAdminCsv(await r.text()); } catch (e) { /* fall back */ }
+  const r = await fetch('data.json', {cache: 'no-cache'}); if (!r.ok) throw new Error(r.status); return (await r.json()).rows || [];
+};
+loadData().then((rows) => {
+  S.rows = rows; buildIndex(); drawCats(); redraw();
+}).catch(() => { $('#result-count').textContent = 'โหลดฐานข้อมูลไม่สำเร็จ: ต้องวางไฟล์ data.json ไว้โฟลเดอร์เดียวกับ index.html และเปิดผ่านเว็บ (เช่น GitHub Pages) ไม่ใช่ดับเบิลคลิกเปิดไฟล์'; });
+})();
+</script>
+</body>
+</html>
