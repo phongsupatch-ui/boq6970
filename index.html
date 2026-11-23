@@ -82,6 +82,8 @@ td.itc{min-width:220px}
   #boq-body tr.sub td{display:block;text-align:right !important}
   #boq-body tr.sub td:empty{display:none}
 }
+.createbox{border:2px dashed var(--g);border-radius:var(--r);background:var(--mint);padding:14px;display:flex;flex-direction:column;gap:8px}
+.createbox b{color:var(--g)}
 [hidden]{display:none !important}
 @media print{
   body{background:#fff}
@@ -107,10 +109,8 @@ td.itc{min-width:220px}
     <div class="card noprint">
       <div class="row">
         <select id="proj-select" class="grow" aria-label="เลือกโปรเจค"></select>
-        <input id="new-name" class="in grow" placeholder="ชื่อโปรเจคใหม่" aria-label="ชื่อโปรเจคใหม่">
-        <button class="btn pri" id="btn-new">สร้างโปรเจค</button>
       </div>
-      <div class="row">
+      <div class="row" id="proj-edit">
         <input id="proj-name" class="in grow" placeholder="ชื่อโปรเจค" aria-label="ชื่อโปรเจค">
         <input id="proj-loc" class="in grow" placeholder="สถานที่ / หมายเหตุ" aria-label="สถานที่">
         <button class="btn bad" id="btn-del">ลบโปรเจค</button>
@@ -161,6 +161,17 @@ td.itc{min-width:220px}
         </div>
         <label class="mut"><input type="checkbox" id="vat"> คิด VAT 7%</label>
         <div class="tot" id="totals">—</div>
+        <div class="createbox noprint" id="create-box" hidden>
+          <b>เพิ่มรายการครบแล้ว? สร้างเป็นโปรเจคเพื่อบันทึกไว้</b>
+          <div class="row">
+            <input id="new-name" class="in grow" placeholder="ชื่อโปรเจค" aria-label="ชื่อโปรเจค">
+            <input id="new-loc" class="in grow" placeholder="สถานที่ / หมายเหตุ (ไม่บังคับ)" aria-label="สถานที่">
+          </div>
+          <div class="row" style="justify-content:flex-end">
+            <button class="btn bad" id="btn-clear">ล้างรายการ</button>
+            <button class="btn pri" id="btn-new">สร้างโปรเจค</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -219,9 +230,13 @@ const loadProjects = () => { try { const a = JSON.parse(localStorage.getItem(LS)
 let projects = loadProjects();
 const persist = () => { try { localStorage.setItem(LS, JSON.stringify(projects)); if (S.pid) localStorage.setItem('boq6970_pid', S.pid); } catch (e) { alert('บันทึกไม่สำเร็จ: พื้นที่เก็บข้อมูลของเบราว์เซอร์เต็มหรือถูกปิด'); } };
 const sorted = () => projects.slice().sort((a, b) => (b.updated || 0) - (a.updated || 0));
-const cur = () => projects.find((p) => p.id === S.pid) || sorted()[0] || null;
+const DK = 'boq6970_draft_v1';
+const emptyDraft = () => ({id: 'draft', name: '', loc: '', vat: false, adds: [], lines: [], created: 0, updated: 0});
+let draft = (() => { try { const d = JSON.parse(localStorage.getItem(DK) || 'null'); return d && Array.isArray(d.lines) ? d : emptyDraft(); } catch (e) { return emptyDraft(); } })();
+const isDraft = (p) => !p || p.id === 'draft';
+const cur = () => projects.find((p) => p.id === S.pid) || draft;
 const newId = (p) => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-const save = (p) => { p.updated = Date.now(); const i = projects.findIndex((x) => x.id === p.id); if (i >= 0) projects[i] = p; else projects.push(p); S.pid = p.id; persist(); redraw(); };
+const save = (p) => { p.updated = Date.now(); if (isDraft(p)) { draft = p; S.pid = 'draft'; try { localStorage.setItem(DK, JSON.stringify(draft)); localStorage.setItem('boq6970_pid', 'draft'); } catch (e) {} redraw(); return; } const i = projects.findIndex((x) => x.id === p.id); if (i >= 0) projects[i] = p; else projects.push(p); S.pid = p.id; persist(); redraw(); };
 const newProject = (name) => { const now = Date.now(); return {id: newId('p'), name: name || 'โปรเจคใหม่', loc: '', vat: false, adds: [], lines: [], created: now, updated: now}; };
 const totals = (p) => {
   const sub = p.lines.reduce((s, l) => s + (num(l.qty) || 0) * (num(l.price) || 0), 0);
@@ -231,7 +246,7 @@ const totals = (p) => {
   return {sub, adds, oh, vat, grand: sub + oh + vat};
 };
 const addLine = (line) => {
-  let p = cur(); if (!p) p = newProject('โปรเจคใหม่');
+  let p = cur();
   p = JSON.parse(JSON.stringify(p));
   const ex = line.cid ? p.lines.find((l) => l.cid === line.cid) : null;
   if (ex) ex.qty = (num(ex.qty) || 0) + 1; else p.lines.push(Object.assign({key: newId('l')}, line));
@@ -334,11 +349,14 @@ const lineSub = (l) => [l.ctype, noNum(l.sub), l.detail].filter(Boolean).join(' 
 const drawProject = () => {
   const p = cur(); const ps = sorted();
   const sel = $('#proj-select');
-  sel.replaceChildren(...(ps.length ? ps.map((x) => new Option(`${x.name} (${x.lines.length} รายการ)`, x.id)) : [new Option('ยังไม่มีโปรเจค', '')]));
-  sel.disabled = !ps.length; sel.value = p ? p.id : '';
-  [['#proj-name', p ? p.name : ''], ['#proj-loc', p ? p.loc || '' : '']].forEach(([s, v]) => { const e = $(s); if (document.activeElement !== e) e.value = v; e.disabled = !p; });
-  $('#btn-del').disabled = !p; $('#vat').checked = !!(p && p.vat); $('#vat').disabled = !p;
-  $('#proj-status').textContent = p ? `${p.lines.length} รายการใน BOQ · บันทึกล่าสุด ${new Date(p.updated).toLocaleString('th-TH')}` : 'ยังไม่มีโปรเจค ตั้งชื่อแล้วกด "สร้างโปรเจค" หรือกด + ที่รายการใดก็ได้เพื่อเริ่มโปรเจคใหม่';
+  const dr = isDraft(p);
+  sel.replaceChildren(new Option(`➕ รายการใหม่ (ยังไม่สร้างโปรเจค)${draft.lines.length ? ' · ' + draft.lines.length + ' รายการ' : ''}`, 'draft'), ...ps.map((x) => new Option(`${x.name} (${x.lines.length} รายการ)`, x.id)));
+  sel.value = dr ? 'draft' : p.id;
+  $('#proj-edit').hidden = dr;
+  [['#proj-name', dr ? '' : p.name], ['#proj-loc', dr ? '' : p.loc || '']].forEach(([s, v]) => { const e = $(s); if (document.activeElement !== e) e.value = v; });
+  $('#vat').checked = !!p.vat;
+  $('#create-box').hidden = !(dr && p.lines.length);
+  $('#proj-status').textContent = dr ? (p.lines.length ? `${p.lines.length} รายการ ยังไม่ได้บันทึกเป็นโปรเจค · กด "สร้างโปรเจค" ด้านล่างเมื่อเพิ่มครบ` : 'ค้นหาแล้วกด + เพิ่มรายการได้เลย ยังไม่ต้องสร้างโปรเจค เพิ่มครบแล้วค่อยกดสร้างด้านล่าง') : `${p.lines.length} รายการใน BOQ · บันทึกล่าสุด ${new Date(p.updated).toLocaleString('th-TH')}`;
   // lines
   const tb = $('#boq-body'); tb.replaceChildren();
   if (!p || !p.lines.length) { const td = tb.insertRow().insertCell(); td.colSpan = 8; td.className = 'empty'; td.textContent = 'ยังไม่มีรายการ ค้นหาจากฐานข้อมูลแล้วกด +'; }
@@ -378,7 +396,7 @@ const drawProject = () => {
   const opts = addOptions();
   const as = $('#add-sel');
   as.replaceChildren(new Option('เลือกค่าบวกเพิ่ม (Overhead / Factor F / ค่าดำเนินการ)…', ''), ...opts.map((o, i) => new Option(`${o.name} · ${fmt(o.pct)}%`, String(i))), new Option('อื่นๆ (ตั้งชื่อและ % เอง)', 'custom'));
-  as.disabled = !p; $('#btn-add').disabled = !p;
+  as.disabled = false; $('#btn-add').disabled = false;
   const ab = $('#adds-body'); ab.replaceChildren();
   if (p) {
     const sub = totals(p).sub;
@@ -425,11 +443,11 @@ const drawHist = () => {
     mk('เปิด', 'pri', () => { S.pid = p.id; persist(); showTab('front'); redraw(); });
     mk('ใบ BOQ', '', () => { S.pid = p.id; S.printPid = p.id; showTab('print'); redraw(); });
     mk('ทำสำเนา', '', () => { const q = JSON.parse(JSON.stringify(p)); const now = Date.now(); q.id = newId('p'); q.name = p.name + ' (สำเนา)'; q.created = now; q.lines.forEach((l) => { l.key = newId('l'); }); save(q); });
-    mk('ลบ', 'bad', () => { if (confirm(`ลบโปรเจค "${p.name}"? ลบแล้วกู้คืนไม่ได้`)) { projects = projects.filter((x) => x.id !== p.id); if (S.pid === p.id) S.pid = null; persist(); redraw(); } });
+    mk('ลบ', 'bad', () => { if (confirm(`ลบโปรเจค "${p.name}"? ลบแล้วกู้คืนไม่ได้`)) { projects = projects.filter((x) => x.id !== p.id); if (S.pid === p.id) S.pid = 'draft'; persist(); redraw(); } });
   });
 };
 const drawPrint = () => {
-  const ps = sorted(); const sel = $('#print-proj');
+  const ps = (draft.lines.length ? [Object.assign({}, draft, {name: 'รายการใหม่ (ยังไม่สร้างโปรเจค)'})] : []).concat(sorted()); const sel = $('#print-proj');
   const id = S.printPid || (cur() || {}).id;
   sel.replaceChildren(...(ps.length ? ps.map((p) => new Option(p.name, p.id)) : [new Option('ยังไม่มีโปรเจค', '')]));
   sel.value = id || (ps[0] || {}).id || '';
@@ -479,12 +497,18 @@ document.querySelectorAll('[data-goto]').forEach((b) => b.addEventListener('clic
 let qt; $('#q').addEventListener('input', (e) => { clearTimeout(qt); qt = setTimeout(() => { S.q = e.target.value; drawResults(); }, 150); });
 $('#f-cat').addEventListener('change', (e) => { S.cat = e.target.value; drawResults(); });
 $('#proj-select').addEventListener('change', (e) => { S.pid = e.target.value; persist(); redraw(); });
-$('#btn-new').addEventListener('click', () => { const n = $('#new-name'); save(newProject(n.value.trim())); n.value = ''; });
+$('#btn-new').addEventListener('click', () => {
+  const n = $('#new-name'); const name = n.value.trim(); if (!name) { n.focus(); n.placeholder = 'ใส่ชื่อโปรเจคก่อน'; return; }
+  const q = newProject(name); q.loc = $('#new-loc').value.trim(); q.lines = draft.lines; q.adds = draft.adds || []; q.vat = !!draft.vat;
+  draft = emptyDraft(); try { localStorage.setItem(DK, JSON.stringify(draft)); } catch (e) {}
+  n.value = ''; $('#new-loc').value = ''; save(q);
+});
+$('#btn-clear').addEventListener('click', () => { if (confirm('ล้างรายการที่เพิ่มไว้ทั้งหมด?')) save(emptyDraft()); });
 const updP = (fn) => { const p = cur(); if (!p) return; const q = JSON.parse(JSON.stringify(p)); fn(q); save(q); };
 $('#proj-name').addEventListener('change', (e) => updP((q) => { q.name = e.target.value.trim() || 'โปรเจค'; }));
 $('#proj-loc').addEventListener('change', (e) => updP((q) => { q.loc = e.target.value; }));
 $('#vat').addEventListener('change', (e) => updP((q) => { q.vat = e.target.checked; }));
-$('#btn-del').addEventListener('click', () => { const p = cur(); if (p && confirm(`ลบโปรเจค "${p.name}"? ลบแล้วกู้คืนไม่ได้`)) { projects = projects.filter((x) => x.id !== p.id); S.pid = null; persist(); redraw(); } });
+$('#btn-del').addEventListener('click', () => { const p = cur(); if (!isDraft(p) && confirm(`ลบโปรเจค "${p.name}"? ลบแล้วกู้คืนไม่ได้`)) { projects = projects.filter((x) => x.id !== p.id); S.pid = 'draft'; persist(); redraw(); } });
 $('#btn-add').addEventListener('click', () => {
   const v = $('#add-sel').value; if (!v) return; const o = addOptions()[+v];
   updP((q) => { q.adds = q.adds || []; q.adds.push({key: newId('a'), name: o ? o.name : 'ค่าบวกเพิ่ม', pct: o ? o.pct : 0}); });
@@ -497,14 +521,14 @@ $('#btn-custom').addEventListener('click', () => {
 const download = (name, text, type) => { const a = el('a'); a.href = URL.createObjectURL(new Blob([text], {type})); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); };
 const csvEsc = (x) => { const s = String(x === null || x === undefined ? '' : x); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
 $('#btn-csv').addEventListener('click', () => {
-  const p = cur(); if (!p) return; const t = totals(p);
+  const p = cur(); if (!p || !p.lines.length) return; const t = totals(p);
   const out = [['โปรเจค', p.name], ['สถานที่/หมายเหตุ', p.loc || ''], [], ['ลำดับ', 'หมวด', 'รายการ', 'รายละเอียด', 'หน่วย', 'จำนวน', 'ราคา/หน่วย', 'จำนวนเงิน', 'ที่มาราคา', 'หน้าใน PDF', 'หมายเหตุ']];
   p.lines.forEach((l, i) => out.push([i + 1, noNum(l.cat), l.item, lineSub(l), l.unit, l.qty, l.price, (num(l.qty) || 0) * (num(l.price) || 0), l.psrc, l.page || '', l.note]));
   out.push([], ['', '', 'รวมค่างาน', '', '', '', '', t.sub.toFixed(2)]);
   t.adds.forEach((a) => out.push(['', '', `${a.name} ${a.pct}%`, '', '', '', '', a.amt.toFixed(2)]));
   if (p.vat) out.push(['', '', 'VAT 7%', '', '', '', '', t.vat.toFixed(2)]);
   out.push(['', '', 'รวมทั้งสิ้น', '', '', '', '', t.grand.toFixed(2)]);
-  download(`BOQ_${p.name.replace(/[^\w฀-๿-]+/g, '_')}.csv`, '﻿' + out.map((r) => r.map(csvEsc).join(',')).join('\r\n'), 'text/csv;charset=utf-8');
+  download(`BOQ_${(p.name || 'รายการใหม่').replace(/[^\w฀-๿-]+/g, '_')}.csv`, '﻿' + out.map((r) => r.map(csvEsc).join(',')).join('\r\n'), 'text/csv;charset=utf-8');
 });
 $('#btn-backup').addEventListener('click', () => download(`BOQ_backup_${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify({projects}, null, 1), 'application/json'));
 $('#restore').addEventListener('change', async (e) => {
